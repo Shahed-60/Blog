@@ -2,6 +2,8 @@
 
 use App\Models\Post;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\File;
+use Spatie\YamlFrontMatter\YamlFrontMatter;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,18 +16,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//we can use getpathname to get the full path of the file 
+//we can also use the string to get the path name 
+//getContents is a method that returns the content of the file
+// ddd($posts);
 Route::get('/', function () {
-    $posts = Post::all();
-
-    ddd($posts[1]->getPathname());
-
     return view(
         'posts',
         [
-            'posts' => $posts
+            'posts' => Post::all()
+
         ]
     );
 });
+
 
 Route::get('posts/{post}', function ($slug) {
 
