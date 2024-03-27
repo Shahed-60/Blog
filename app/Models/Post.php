@@ -45,6 +45,7 @@ class Post
                 ->sortByDesc('date');
         });
     }
+    // we have made a new method called find that will find a post by its slug
     public static function find($slug)
     {
         //  we make a path to the file
@@ -65,8 +66,18 @@ class Post
 
         // of all the blog posts, find the one with a slug that matches the one that was requested
         // static::all() is a collection of all the blog posts
-        $posts = static::all();
-
-        return $posts->firstWhere('slug', $slug);
+        // $posts = static::all();
+        return static::all()->firstWhere('slug', $slug);
+    }
+    // we have made a new method called findOrFail that will throw a model not found exception if the post does not exist
+    // we use the findOrFail method in the web.php file 
+    // so if the post does not exist it will throw a model not found exception and if exists it will return the post
+    public static function findOrFail($slug)
+    {
+        $post =  static::find($slug);
+        if (!$post) {
+            throw new ModelNotFoundException();
+        }
+        return $post;
     }
 }

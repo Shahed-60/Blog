@@ -1,20 +1,20 @@
-<!DOCTYPE html>
-<link rel="stylesheet" href="css/app.css">
-<title>My blog</title>
+{{-- The first way how to add blade layout --}}
+@extends('components.layout')
+@section('content')
+    {{-- The second way how to add blade layout is with the x-layout --}}
+    {{-- <x-layout> --}}
 
-<body>
-    <?php foreach ($posts as $post) : ?>
-    <article>
-        <h1>
-            <a href="/posts/<?= $post->slug ?>">
+    @foreach ($posts as $post)
+        {{-- @dd($loop)  --}}
+        <article class="{{ $loop->even ? 'foobar' : '' }}">
+            <h1>
+                <a href="/posts/{{ $post->slug }}">
+                    {{ $post->title }}
+                </a>
+            </h1>
 
-                <?= $post->title ?>
-            </a>
-        </h1>
-
-        <div><?= $post->excerpt ?></div>
-    </article>
-    <?php endforeach; ?>
-</body>
-
-</html>
+            <div>{{ $post->excerpt }}</div>
+        </article>
+    @endforeach
+    {{-- </x-layout> --}}
+@endsection
