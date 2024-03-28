@@ -31,12 +31,12 @@ Route::get('/', function () {
 });
 
 
-Route::get('posts/{post}', function ($slug) {
-    $post = Post::findOrFail($slug);
+Route::get('posts/{post}', function ($id) {
+    $post = Post::findOrFail($id);
     // find a post by its slug and pass it to a view called "post"
     return view('post', [
         // this is Post model and we are calling the find method on it and passing the slug
-        'post' =>  Post::find($slug)
+        'post' =>  Post::find($id)
 
     ]);
     // return ($slug);
