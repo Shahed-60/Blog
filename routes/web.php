@@ -1,7 +1,9 @@
 <?php
 
 use App\Models\Post;
+use App\Models\Category;
 use Illuminate\Support\Facades\Route;
+
 use Illuminate\Support\Facades\File;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
 
@@ -21,25 +23,32 @@ use Spatie\YamlFrontMatter\YamlFrontMatter;
 //getContents is a method that returns the content of the file
 // ddd($posts);
 Route::get('/', function () {
+
     return view(
         'posts',
         [
-            'posts' => Post::all()
+            'posts' => Post::with('category')->get()
 
         ]
     );
 });
 
-
-Route::get('posts/{post}', function ($id) {
-    $post = Post::findOrFail($id);
+// Get me the post where the slug matches the slug you provided
+Route::get('posts/{post:slug}', function (Post $post) {
+    // $post = Post::findOrFail($id);
     // find a post by its slug and pass it to a view called "post"
     return view('post', [
         // this is Post model and we are calling the find method on it and passing the slug
-        'post' =>  Post::find($id)
+        'post' =>  $post
 
     ]);
     // return ($slug);
 
 
+});
+
+Route::get('categories/{category:slug}', function (Category $category) {
+    return view('posts', [
+        'posts' => $category->posts
+    ]);
 });
